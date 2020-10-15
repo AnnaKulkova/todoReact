@@ -1,0 +1,19 @@
+.color-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.color-container li{
+    list-style-type: none;
+    display: inline;
+    margin: 0 2px;
+    width: 22px;
+    height: 22px;
+
+}
+.color-container li:first-child{
+    margin-left: 0;
+}
+.color-container li:last-child{
+    margin-right: 15px;
+}

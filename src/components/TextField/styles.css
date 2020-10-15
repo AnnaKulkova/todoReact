@@ -1,0 +1,5 @@
+.text-field > input{
+    border: none;
+    outline: none;
+    font-size: 22px;
+}

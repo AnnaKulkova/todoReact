@@ -1,0 +1,106 @@
+.task{
+    display: flex;
+    opacity: 0;
+    overflow: hidden;
+    height: 0;
+    --inner-padding: 20px 25px;
+    --border-radius: 2px;
+    background-color: #61dafb;
+}
+.task.show{
+    height: 60px;
+}
+
+.swing .task{
+    opacity: 0;
+    transform: rotateX(-90deg);
+    transition: all 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+}
+.swing .task.show{
+    opacity: 1;
+    transform: none;
+    transition: all 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+}
+.task > *{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.check-box{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: var(--inner-padding);
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    user-select: none;
+    width:60px;
+}
+.check-box input{
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+.custom-checkbox{
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    height: 30px;
+    width: 30px;
+    background-color: #eeeeee;
+    border-radius: 50% !important;
+}
+
+.check-box:hover input ~ .custom-checkbox{
+    background-color: #cccccc;
+}
+.check-box input:checked ~ .custom-checkbox {
+    background-color: #cccccc;
+}
+.custom-checkbox:after{
+    content: "";
+    position: absolute;
+    display: none;
+}
+.check-box input:checked ~ .custom-checkbox:after {
+    display: block;
+}
+.check-box .custom-checkbox:after{
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.todo-item{
+    width: 100%;
+    padding: var(--inner-padding);
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    justify-content: space-between;
+    word-wrap: break-word;
+    font-size: 20px;
+}
+.task:last-child .check-box,
+.task:last-child .todo-item{
+    border-bottom: 0;
+}
+
+.task button{
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-size: 28px;
+    color: transparent;
+    text-decoration: none !important;
+    transition: 0.3s ease;
+}
+.task:hover button{
+    color: #4d4d4d;
+    cursor: pointer;
+}
