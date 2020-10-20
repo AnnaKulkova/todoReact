@@ -1,8 +1,8 @@
 import React from "react";
 import TaskContainer from "../TaskContainer/index";
 import AddPanel from "../AddPanel/index";
-import './styles.css';
 import ControlPanel from "../ControlPanel";
+import './styles.css';
 
 class Container extends React.Component{
     constructor(props) {

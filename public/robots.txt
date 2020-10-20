@@ -1,3 +1,20 @@
-# https://www.robotstxt.org/robotstxt.html
+# https://www.robotstxt.org/robotstxt.html#add-button{
+    width: 65px;
+    height: 35px;
+}
+#add-button input{
+    width: 100%;
+    height: 100%;
+    background-color: #26a59a;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+}
+#add-button input:active{
+    transform: scale(.95);
+}
+
 User-agent: *
 Disallow:
