@@ -1,62 +1,50 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
+import {useDispatch} from "react-redux";
+import {toggleTodo, deleteTodo} from "../../actions";
 import './styles.css'
 
-class Task extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            animation: '',
+function Task ({ id, completed, originalColor, text }){
+
+    let styleCommon;
+    let styleTodo;
+    if (completed) {
+          styleCommon =
+            {
+                backgroundColor: '#bbbbbb',
+                color: 'rgba(77, 77, 77, 0.4)',
+            };
+         styleTodo = {
+            textDecoration: 'line-through',
         }
     }
-    componentDidMount() {
-        setTimeout(()=>this.setState({animation:'show'}), 25);
+    else {
+         styleCommon = {
+            backgroundColor: originalColor,
+            color: 'rgba(77, 77, 77, 1)',
+        }
+         styleTodo = {
+            textDecoration: 'none',
+        }
     }
-
-    render() {
-        const { completed, id, onChange, data,
-                originalColor, deleteItem, visible } = this.props;
-        let styleCommon = {};
-        let styleTodo = {};
-        if (completed) {
-             styleCommon =
-                {
-                    backgroundColor: '#bbbbbb',
-                    color: 'rgba(77, 77, 77, 0.4)',
-                };
-             styleTodo = {
-                textDecoration: 'line-through',
-            }
-        }
-        else {
-             styleCommon = {
-                backgroundColor: originalColor,
-                color: 'rgba(77, 77, 77, 1)',
-            }
-             styleTodo = {
-                textDecoration: 'none',
-            }
-        }
-        if (visible) styleCommon.display = 'flex';
-        else styleCommon.display = 'none';
-
-        return(
-            <div className={"task "+this.state.animation} style={styleCommon}>
-                <label className="check-box">
-                    <input type="checkbox"
-                           checked={completed}
-                           onChange={() => onChange(id)}
-                    />
-                    <span className="custom-checkbox"></span>
-                </label>
-                <div className="todo-item">
-                    <p style={styleTodo}>{data}</p>
-                    <button onClick={()=>deleteItem(id)}>×</button>
-                </div>
+    const dispatcher = useDispatch();
+    return(
+        <div className = "task show" style = {styleCommon}>
+            <label className = "check-box">
+                <input type = "checkbox"
+                       checked = {completed}
+                       onChange = {() => dispatcher(toggleTodo(id))}
+                />
+                <span className="custom-checkbox"/>
+            </label>
+            <div className = "todo-item">
+                <p style = {styleTodo}>{text}</p>
+                <button
+                    onClick = {() => dispatcher(deleteTodo(id))}>
+                    ×
+                </button>
             </div>
-        );
-    }
-
-
+        </div>
+    );
 }
 
 export default Task;

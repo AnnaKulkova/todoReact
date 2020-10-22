@@ -1,0 +1,19 @@
+.filter-button{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 2px;
+
+}
+.filter-button:hover{
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+.filter-button{
+    width: 33%;
+}
+
+.button_active{
+    border: 1px solid rgba(0,0,0,0.35) !important;
+}

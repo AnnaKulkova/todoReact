@@ -1,37 +1,46 @@
 import React from "react";
+import {useSelector} from "react-redux";
+import {deleteCompleted, setVisibilityFilter} from "../../actions";
+import {visibilityFilters} from "../../constants/actionTypes";
+import FilterButton from "../FilterButton";
 import './styles.css'
 
-class ControlPanel extends React.Component{
+function ControlPanel() {
+    const todos = useSelector(state => state.todos);
+    const currentFilter = useSelector(state => state.visibilityFilter)
+    const todoCount = todos.length;
+    const completedTodoCount = todos.filter(todo =>
+        todo.completed).length;
+    const panelStyle = todoCount ? {display: 'flex'} : {display: 'none'}
 
-    render(){
-        const { itemCount, clearAllCompleted, allFilter,
-                activeFilter, completedFilter, buttons,
-                inCompletedItemsCount} = this.props;
-        const selectedStyle = {
-            border: '1px solid rgba(0,0,0,0.3)',
-            borderRadius: '2px',
-        }
-        const resetStyle = {
-            border: 'none',
-        }
-        const styleAll = buttons[0].selected? selectedStyle:resetStyle;
-        const styleActive = buttons[1].selected? selectedStyle:resetStyle;
-        const styleCompleted = buttons[2].selected? selectedStyle:resetStyle;
-        const panelStyle = itemCount ? {display: 'flex'} : {display: 'none'}
-        return(
-            <div className="control-panel" style={panelStyle}>
-                <p>{inCompletedItemsCount} items left</p>
-                <div className="filters">
-                    <button onClick={allFilter} style={styleAll}>All</button>
-                    <button onClick={activeFilter} style={styleActive}>Active</button>
-                    <button onClick={completedFilter} style={styleCompleted}>Completed</button>
-                </div>
-                <div className="clear">
-                    <button onClick={clearAllCompleted}>Clear completed</button>
-                </div>
+    return(
+        <div className = "control-panel" style = {panelStyle}>
+            <p>{todoCount - completedTodoCount} items left</p>
+            <div className = "filters">
+                <FilterButton
+                    onClick = {setVisibilityFilter(visibilityFilters.SHOW_ALL)}
+                    isActive = {currentFilter === visibilityFilters.SHOW_ALL}
+                >
+                    All
+                </FilterButton>
+                <FilterButton
+                    onClick = {setVisibilityFilter(visibilityFilters.SHOW_ACTIVE)}
+                    isActive = {currentFilter === visibilityFilters.SHOW_ACTIVE}
+                >
+                    Active
+                </FilterButton>
+                <FilterButton
+                    onClick = {setVisibilityFilter(visibilityFilters.SHOW_COMPLETED)}
+                    isActive = {currentFilter === visibilityFilters.SHOW_COMPLETED}
+                >
+                    Completed
+                </FilterButton>
             </div>
-        )
-    }
+            <div className = "clear">
+                <FilterButton onClick={deleteCompleted()}>Clear completed</FilterButton>
+            </div>
+        </div>
+    )
 }
 
 export default ControlPanel;

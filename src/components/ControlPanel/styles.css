@@ -9,21 +9,12 @@
     height: 50px;
 
 }
+
 .control-panel *{
     color: rgba(0,0,0,0.5);
 }
-.control-panel button{
-    border: none;
-    outline: none;
-    background-color: transparent;
-    cursor: pointer;
-    padding: 2px;
-    border-radius: 2px;
 
-}
-.control-panel button:hover{
-    border: 1px solid rgba(0,0,0,0.15) !important;
-}
+
 
 .filters{
     display: flex;
@@ -32,9 +23,7 @@
     width: 40%;
 }
 
-.filters button{
-    width: 33%;
-}
+
 
 .clear{
     display: flex;
@@ -43,7 +32,7 @@
     width: 104px;
 }
 
-.control-panel div:last-child button{
+.clear button{
     width: 100%;
 }
 
