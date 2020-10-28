@@ -2,42 +2,47 @@ import { ADD_TODO,
          TOGGLE_TODO,
          DELETE_TODO,
          TOGGLE_ALL,
-         DELETE_COMPLETED} from '../constants/actionTypes'
-
-function generateID() {
-    return `f${(Math.floor(Math.random()*1e8)).toString(16)}`;
-}
+         DELETE_COMPLETED,
+         SET_TODOS_FROM_SERVER
+} from "../constants/actionTypes";
 
 export default function todos(state = [], action) {
+    const areAllMarked = state.every(todo => todo.completed);
     switch (action.type) {
         case ADD_TODO:
             return [
                 ...state,
                 {
-                    id: generateID(),
+                    id: action.payload.id,
                     text: action.payload.text,
                     originalColor: action.payload.color,
                     completed: false,
                 }
-            ]
+            ];
         case TOGGLE_TODO:
             return state.map((todo) => {
-                if (todo.id === action.payload.id){
-                    return { ...todo, completed: !todo.completed }
+                if (todo.id === action.payload.id) {
+                    return { ...todo, completed: !todo.completed };
                 } else
-                return todo
-            })
+                return todo;
+            });
         case TOGGLE_ALL:
-            const areAllMarked = state.every(todo => todo.completed)
             return state.map((todo) => {
-                return {...todo, completed: !areAllMarked}
-            })
+                return {...todo, completed: !areAllMarked};
+            });
         case DELETE_TODO:
             return state.filter((todo) =>
-                todo.id !== action.payload.id)
+                todo.id !== action.payload.id);
         case DELETE_COMPLETED:
-            return state.filter(todo => todo.completed === false)
+            return state.filter(todo => todo.completed === false);
+        case SET_TODOS_FROM_SERVER:
+            return action.payload.todos.map(todo => ({
+                    id: todo.id,
+                    text: todo.data,
+                    originalColor: todo.originalColor,
+                    completed: todo.completed,
+                }));
         default:
-            return state
+            return state;
     }
 }
