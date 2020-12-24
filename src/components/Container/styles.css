@@ -16,6 +16,7 @@
 .outer-box{
     display: flex;
     flex-flow: column;
+    align-items: center;
 }
 .outer-box > p{
     font-size: 100px;
