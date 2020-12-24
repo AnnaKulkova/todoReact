@@ -4,6 +4,7 @@
     border: none;
     box-sizing: content-box !important;
     border-radius: 3px !important;
+    cursor: pointer;
 }
 
 .resetBorder{

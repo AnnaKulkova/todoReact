@@ -1,42 +1,39 @@
-import React from "react";
+import React, {useState} from "react";
+import {addTodo} from "../../actions";
+import {useDispatch, useSelector} from "react-redux";
 import './styles.css';
 
-class TextField extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: '',
+function TextField() {
+
+    const [text, setText] = useState('');
+    const dispatcher = useDispatch();
+    const colors = useSelector(state => state.colors);
+    function handleChange(e) {
+        setText(e.target.value)
+    }
+
+    function handleSubmit(e) {
+        const selectedColor = colors.find(color => color.active);
+        const text = e.target.value.trim();
+        const color = selectedColor ? selectedColor.color : 'transparent';
+        if (!text) return;
+        if (e.which === 13) {
+            dispatcher(addTodo(text, color));
+            setText('');
         }
-        this.onChange = this.onChange.bind(this);
-    }
-    onChange(e){
-        const data = e.target.value;
-        this.props.setInputData(data);
-        this.setState({data})
-    }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.isClear && prevProps.isClear !== this.props.isClear) {
-            this.setState({
-                data: ''
-            })
-        }
     }
 
-    render() {
-
-        return (
-            <div className="text-field">
-                <input type="text"
-                       placeholder="Add New todo"
-                       autoFocus={true}
-                       onChange={this.onChange}
-                       value={this.state.data}
-                />
-            </div>
-        )
-    }
-
-
+    return (
+        <div className = 'text-field'>
+            <input type = "text"
+                   placeholder = "Add new Item"
+                   autoFocus = {true}
+                   onChange = {handleChange}
+                   value = {text}
+                   onKeyDown = {handleSubmit}
+            />
+        </div>
+    )
 }
 
 export default TextField;

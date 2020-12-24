@@ -1,37 +1,30 @@
 import React from "react";
 import TextField from "../TextField/index";
-import ColorsAndButton from "../ColorsAndButon";
+import ColorContainer from "../ColorContainer";
+import {useDispatch, useSelector} from "react-redux";
+import {toggleAll} from "../../actions";
 import './styles.css'
 
-
-function AddPanel(props) {
-    const { input, colorSet, selectColor,
-            setInputData, addItem, selectAll,
-            completedItemsCount, itemCount} = props;
-    const check = itemCount > completedItemsCount;
-    const selectAllButtonStyle = !check ? {color: "#000000"} : {color: "#757575"};
-    if (!itemCount){
+function AddPanel() {
+    const todos = useSelector (state => state.todos);
+    const dispatcher = useDispatch();
+    const allItemsMarked = todos.every(todo => todo.completed);
+    const selectAllButtonStyle = allItemsMarked ?
+        {color: "#000000"} : {color: "#757575"};
+    if (todos.length === 0) {
         selectAllButtonStyle.color = 'transparent';
         selectAllButtonStyle.cursor = 'default';
     }
-    console.log("2: ", check);
     return(
         <div className="add-panel">
             <div className="all-checks">
-                <button onClick={()=>selectAll(check)}
+                <button onClick={() => dispatcher(toggleAll())}
                         style={selectAllButtonStyle}>
                     ❯
                 </button>
             </div>
-            <TextField
-               isClear={input.isClear}
-               setInputData={setInputData}
-            />
-            <ColorsAndButton
-                colorSet={colorSet}
-                selectColor={selectColor}
-                addItem={addItem}
-            />
+            <TextField />
+            <ColorContainer />
         </div>
     )
 }

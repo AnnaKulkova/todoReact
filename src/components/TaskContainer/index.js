@@ -1,33 +1,44 @@
 import React from "react";
-import Task from '../Task/index';
+import {useSelector} from "react-redux";
+import {visibilityFilters} from "../../constants/actionTypes";
+import Task from '../Task';
 import './styles.css';
 
-class TaskContainer extends React.Component {
-    render() {
-        const {items, onChange, deleteItem } = this.props;
-        return (
-            <div className="task-container swing">
-                {
-                    items.map((item) => {
-                        return (
-                            <Task
-                                item={item}
-                                id={item.id}
-                                data={item.data}
-                                completed={item.completed}
-                                onChange={onChange}
-                                originalColor={item.originalColor}
-                                deleteItem={deleteItem}
-                                key={item.id}
-                                visible={item.visible}
-                            />
-                        )
-                    })
-                }
-            </div>
-        )
+function TaskContainer() {
+
+    const filterFunction = (items, filter) => {
+        switch (filter) {
+            case visibilityFilters.SHOW_ALL:
+                return items
+            case visibilityFilters.SHOW_ACTIVE:
+                return items.filter(item => !item.completed)
+            case visibilityFilters.SHOW_COMPLETED:
+                return items.filter(item => item.completed)
+            default:
+                throw new Error("Unknown filter")
+        }
     }
 
+    const todos = useSelector(state => state.todos);
+    const filter = useSelector(state => state.visibilityFilter)
+    const filteredTodos = filterFunction(todos, filter);
+    return (
+        <div className="task-container swing">
+            {
+                filteredTodos.map((todo) => {
+                    return (
+                        <Task
+                            key = {todo.id}
+                            id = {todo.id}
+                            text = {todo.text}
+                            originalColor = {todo.originalColor}
+                            completed = {todo.completed}
+                        />
+                    )
+                })
+            }
+        </div>
+    )
 }
 
 export default TaskContainer;
